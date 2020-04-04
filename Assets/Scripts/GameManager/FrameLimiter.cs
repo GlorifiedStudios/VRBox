@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FrameLimiter : MonoBehaviour
 {
-    private readonly int framerateLimit = 67;
+    [SerializeField] private int framerateLimit = 67;
     
     void Awake()
     {
-        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = framerateLimit;
     }
 }
