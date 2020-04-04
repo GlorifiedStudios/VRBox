@@ -5,27 +5,41 @@ using UnityEngine;
 public class CharacterMove : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 6f;
+    [SerializeField] private AudioClip[] footstepSounds = null;
+    [SerializeField] private AudioSource footstepSource = null;
 
     private CharacterController charController;
+    private bool walking = false;
 
-    private void Awake()
-    {
+    private void Start() {
+        if( footstepSource == null || footstepSounds == null ) { return; }
+        InvokeRepeating( "FootstepSounds", 0, 0.5f );
+    }
+
+    private void Awake() {
         charController = GetComponent<CharacterController>();
     }
 
-    private void Update()
-    {
+    private void Update() {
         PlayerMovement();
     }
 
-    private void PlayerMovement()
-    {
+    private void PlayerMovement() {
         float horizInput = Input.GetAxis( "Horizontal" ) * movementSpeed;
         float vertInput = Input.GetAxis( "Vertical" ) * movementSpeed;
 
         Vector3 forwardMovement = transform.forward * vertInput;
         Vector3 rightMovement = transform.right * horizInput;
 
-        charController.SimpleMove(forwardMovement + rightMovement);
+        Vector3 speed = forwardMovement + rightMovement;
+        charController.SimpleMove( speed );
+        walking = speed != Vector3.zero;
+    }
+
+    void FootstepSounds() {
+        if( walking ) {
+            footstepSource.clip = footstepSounds[Random.Range( 0, footstepSounds.Length )];
+            footstepSource.Play();
+        }
     }
 }
