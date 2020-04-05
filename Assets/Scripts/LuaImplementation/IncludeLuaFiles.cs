@@ -7,16 +7,16 @@ using MoonSharp.Interpreter;
 
 public class IncludeLuaFiles : MonoBehaviour
 {
-    private static Dictionary<string, string> luaGlobalStrings = new Dictionary<string, string>();
+    private static Dictionary<string, DynValue> luaGlobals = new Dictionary<string, DynValue>();
 
-    private static string PushGlobalString( string identifier, string value ) {
-        luaGlobalStrings[identifier] = value;
+    private static DynValue PushGlobal( string identifier, DynValue value ) {
+        luaGlobals[identifier] = value;
         return value;
     }
 
     private void AssignLuaGlobals( Script luaScript ) {
-        luaScript.Globals["PushGlobalString"] = (Func<string, string, string>)PushGlobalString;
-        foreach( KeyValuePair<string, string> globalString in luaGlobalStrings ) {
+        luaScript.Globals["PushGlobal"] = (Func<string, DynValue, DynValue>)PushGlobal;
+        foreach( KeyValuePair<string, DynValue> globalString in luaGlobals ) {
             luaScript.Globals[globalString.Key] = globalString.Value;
         }
     }
