@@ -1,2 +1,3 @@
 
-require( "Native.lua" )
+require( "autorun/Native" )
+return fooNative

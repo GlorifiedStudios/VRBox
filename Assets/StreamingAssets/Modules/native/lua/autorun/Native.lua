@@ -1,2 +1,4 @@
 
-local foo = "Test"
+fooNative = "Native.lua"
+require( "Test" )
+return fooTest
