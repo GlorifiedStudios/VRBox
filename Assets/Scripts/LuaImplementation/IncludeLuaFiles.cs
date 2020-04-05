@@ -11,7 +11,7 @@ public class IncludeLuaFiles : MonoBehaviour
 
     private static string PushGlobalString( string identifier, string value ) {
         luaGlobalStrings[identifier] = value;
-        return "";
+        return value;
     }
 
     void Start()
