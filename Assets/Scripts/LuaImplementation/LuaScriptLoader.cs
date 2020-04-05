@@ -7,7 +7,7 @@ using MoonSharp.Interpreter.Loaders;
 public class LuaScriptLoader : MonoBehaviour
 {
     private void AssignLuaGlobals( Script luaScript ) {
-        luaScript.Globals["FileExists"] = (Func<string, DynValue>)FileLibrary.FileExists;
+        luaScript.Globals["FileExists"] = (Func<string, DynValue>)LuaFileLibrary.FileExists;
     }
 
     private void LoadAutorunFiles() {
@@ -22,7 +22,6 @@ public class LuaScriptLoader : MonoBehaviour
                         ((ScriptLoaderBase)luaScript.Options.ScriptLoader).ModulePaths = ScriptLoaderBase.UnpackStringPaths( moduleFolder + "/?;" + moduleFolder + "/?.lua" );
                         AssignLuaGlobals( luaScript );
                         DynValue luaOutput = luaScript.DoFile( file );
-                        Debug.Log( luaOutput );
                     }
                 }
             }
@@ -30,7 +29,6 @@ public class LuaScriptLoader : MonoBehaviour
     }
 
     void Start() {
-        Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
         LoadAutorunFiles();
     }
 }

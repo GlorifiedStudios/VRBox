@@ -2,7 +2,7 @@
 using UnityEngine;
 using MoonSharp.Interpreter;
 
-public class FileLibrary : MonoBehaviour
+public class LuaFileLibrary : MonoBehaviour
 {
     public static DynValue FileExists( string path ) {
         string dataPath = Path.Combine( Application.streamingAssetsPath, "data" );
