@@ -14,10 +14,6 @@ public class ConsoleController : MonoBehaviour
         inputField.text = consoleText;
     }
 
-    void Awake() {
-        inputField.text = "bruh";
-    }
-
     void Update() {
         consoleActive = inputField.gameObject.activeSelf;
         if( Input.GetButtonDown( "OpenConsole" ) ) {
@@ -26,8 +22,10 @@ public class ConsoleController : MonoBehaviour
 
         if( consoleActive ) {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         } else {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }
