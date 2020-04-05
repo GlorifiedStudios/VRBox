@@ -40,14 +40,21 @@ public class LuaScriptLoader : MonoBehaviour
     {
         Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
 
-        string modulePath = Path.Combine( Application.streamingAssetsPath, "Modules" );
-        string[] allModules = Directory.GetFiles( modulePath, "*.*", SearchOption.AllDirectories );
-        foreach ( var file in allModules ){
-            if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
-                Script luaScript = new Script();
-                AssignLuaGlobals( luaScript );
-                DynValue luaOutput = luaScript.DoFile( file );
-                Debug.Log( luaOutput );
+        string modulesPath = Path.Combine( Application.streamingAssetsPath, "modules" );
+        string[] moduleFolders = Directory.GetDirectories( modulesPath, "*.*", SearchOption.AllDirectories );
+        foreach( var folder in moduleFolders ) {
+            string autorunFolder = Path.Combine( modulesPath, folder );
+            autorunFolder = Path.Combine( autorunFolder, "autorun" );
+            if( Directory.Exists( autorunFolder ) ) {
+                string[] autorunFiles = Directory.GetFiles( autorunFolder, "*.*", SearchOption.AllDirectories );
+                foreach ( var file in autorunFiles ) {
+                    if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
+                        Script luaScript = new Script();
+                        AssignLuaGlobals( luaScript );
+                        DynValue luaOutput = luaScript.DoFile( file );
+                        Debug.Log( luaOutput );
+                    }
+                }
             }
         }
     }
