@@ -1,2 +1,2 @@
 
-PushGlobal( "foo", "Test Global String" )
+local foo = "Test"
