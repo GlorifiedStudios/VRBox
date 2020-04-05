@@ -1,2 +1,2 @@
 
-return FileExists( "bruh.lua" )
+return ""
