@@ -1,1 +1,1 @@
-foo = "69"
+PushGlobalString( "foo", "Test Global String" )
