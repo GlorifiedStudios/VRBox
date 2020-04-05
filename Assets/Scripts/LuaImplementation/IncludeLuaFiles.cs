@@ -10,11 +10,13 @@ public class IncludeLuaFiles : MonoBehaviour
     {
         string modulePath = Path.Combine( Application.streamingAssetsPath, "Modules" );
         string[] allModules = Directory.GetFiles( modulePath, "*.*", SearchOption.AllDirectories );
+        string concatCode = "";
         foreach ( var file in allModules ){
             if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
-                DynValue luaOutput = Script.RunString( File.ReadAllText( file ) );
-                Debug.Log( luaOutput );
+                concatCode = string.Concat( concatCode, File.ReadAllText( file ) );
             }
         }
+        DynValue luaOutput = Script.RunString( concatCode );
+        Debug.Log( luaOutput );
     }
 }
