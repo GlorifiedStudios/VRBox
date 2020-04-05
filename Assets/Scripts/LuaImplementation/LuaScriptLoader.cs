@@ -44,6 +44,7 @@ public class LuaScriptLoader : MonoBehaviour
         string[] moduleFolders = Directory.GetDirectories( modulesPath, "*.*", SearchOption.AllDirectories );
         foreach( var folder in moduleFolders ) {
             string moduleFolder = Path.Combine( modulesPath, folder );
+            moduleFolder = Path.Combine( moduleFolder, "lua" );
             string autorunFolder = Path.Combine( moduleFolder, "autorun" );
             if( Directory.Exists( autorunFolder ) ) {
                 string[] autorunFiles = Directory.GetFiles( autorunFolder, "*.*", SearchOption.AllDirectories );
