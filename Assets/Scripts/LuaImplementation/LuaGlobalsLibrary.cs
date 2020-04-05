@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Loaders;
 
 public class LuaGlobalsLibrary : MonoBehaviour
 {

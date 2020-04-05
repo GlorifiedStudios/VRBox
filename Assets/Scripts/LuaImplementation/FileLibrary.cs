@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Loaders;
 
 public class FileLibrary : MonoBehaviour
 {
