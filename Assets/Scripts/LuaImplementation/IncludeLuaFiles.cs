@@ -15,6 +15,8 @@ public class IncludeLuaFiles : MonoBehaviour
 
     private static Dictionary<string, DynValue> luaGlobals = new Dictionary<string, DynValue>();
 
+    // Notice: PushGlobal does not support Lua functions & tables for some reason, will look into soon
+    // Resources: https://forums.tabletopsimulator.com/showthread.php?4231-Passing-functions-between-scripts
     private static DynValue PushGlobal( string identifier, DynValue value ) {
         if( unwriteableGlobals.Contains( identifier ) ) { return DynValue.NewNil(); }
         luaGlobals[identifier] = value;
