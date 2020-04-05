@@ -9,7 +9,9 @@ public class LuaFileLibrary : MonoBehaviour
         path = Path.Combine( dataPath, path );
 
         if( path.Length < dataPath.Length || path.Substring( 0, dataPath.Length ) != dataPath ) {
-            Debug.Log( "Path out of data folder!" );
+            GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole(
+                "<color=orange>FileExists path called out of data folder, cancelling.</color>"
+            );
             return DynValue.NewBoolean( false );
         }
 
