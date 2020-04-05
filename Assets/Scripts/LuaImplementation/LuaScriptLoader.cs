@@ -18,10 +18,14 @@ public class LuaScriptLoader : MonoBehaviour
             if( Directory.Exists( autorunFolder ) ) {
                 foreach ( var file in Directory.GetFiles( autorunFolder, "*.*", SearchOption.AllDirectories ) ) {
                     if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
-                        Script luaScript = new Script();
-                        ((ScriptLoaderBase)luaScript.Options.ScriptLoader).ModulePaths = ScriptLoaderBase.UnpackStringPaths( moduleFolder + "/?;" + moduleFolder + "/?.lua" );
-                        AssignLuaGlobals( luaScript );
-                        DynValue luaOutput = luaScript.DoFile( file );
+                        try {
+                            Script luaScript = new Script();
+                            ((ScriptLoaderBase)luaScript.Options.ScriptLoader).ModulePaths = ScriptLoaderBase.UnpackStringPaths( moduleFolder + "/?;" + moduleFolder + "/?.lua" );
+                            AssignLuaGlobals( luaScript );
+                            DynValue luaOutput = luaScript.DoFile( file );
+                        } catch( SyntaxErrorException ex ) {
+                            Debug.LogError( "Lua Script Errors:\n" + ex.DecoratedMessage );
+                        }
                     }
                 }
             }
