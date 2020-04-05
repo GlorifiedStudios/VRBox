@@ -1,1 +1,1 @@
-PushGlobalString( "foo", "Test Global String" )
+PushGlobal( "foo", "Test Global String" )
