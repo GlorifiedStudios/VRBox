@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 
-public class IncludeLuaFiles : MonoBehaviour
+public class LuaScriptLoader : MonoBehaviour
 {
     private static string[] unwriteableGlobals = new string[] {
         "PushGlobal",
@@ -37,13 +38,15 @@ public class IncludeLuaFiles : MonoBehaviour
 
     void Start()
     {
+        Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
+
         string modulePath = Path.Combine( Application.streamingAssetsPath, "Modules" );
         string[] allModules = Directory.GetFiles( modulePath, "*.*", SearchOption.AllDirectories );
         foreach ( var file in allModules ){
             if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
                 Script luaScript = new Script();
                 AssignLuaGlobals( luaScript );
-                DynValue luaOutput = luaScript.DoString( File.ReadAllText( file ) );
+                DynValue luaOutput = luaScript.DoFile( file );
                 Debug.Log( luaOutput );
             }
         }
