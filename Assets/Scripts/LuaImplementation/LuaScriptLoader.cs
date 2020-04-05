@@ -9,38 +9,11 @@ using MoonSharp.Interpreter.Loaders;
 
 public class LuaScriptLoader : MonoBehaviour
 {
-    private static string[] unwriteableGlobals = new string[] {
-        "PushGlobal",
-        "GetGlobal",
-        "fileExists"
-    };
-
-    private static Dictionary<string, DynValue> luaGlobals = new Dictionary<string, DynValue>();
-
-    // Notice: PushGlobal does not support Lua functions & tables for some reason, will look into soon
-    // Resources: https://forums.tabletopsimulator.com/showthread.php?4231-Passing-functions-between-scripts
-    private static DynValue PushGlobal( string identifier, DynValue value ) {
-        if( unwriteableGlobals.Contains( identifier ) ) { return DynValue.NewNil(); }
-        luaGlobals[identifier] = value;
-        return value;
-    }
-
-    private static DynValue GetGlobal( string identifier ) {
-        return luaGlobals[identifier];
-    }
-
-    private static DynValue FileExists( string path ) {
-        bool fileExists = false;
-        if( Directory.Exists( path ) ) { fileExists = true; }
-        if( File.Exists( path ) ) { fileExists = true; }
-        return DynValue.NewBoolean( fileExists );
-    }
-
     private void AssignLuaGlobals( Script luaScript ) {
-        luaScript.Globals["PushGlobal"] = (Func<string, DynValue, DynValue>)PushGlobal;
-        luaScript.Globals["GetGlobal"] = (Func<string, DynValue>)GetGlobal;
-        luaScript.Globals["FileExists"] = (Func<string, DynValue>)FileExists;
-        foreach( KeyValuePair<string, DynValue> globalString in luaGlobals ) {
+        luaScript.Globals["PushGlobal"] = (Func<string, DynValue, DynValue>)LuaGlobalsLibrary.PushGlobal;
+        luaScript.Globals["GetGlobal"] = (Func<string, DynValue>)LuaGlobalsLibrary.GetGlobal;
+        luaScript.Globals["FileExists"] = (Func<string, DynValue>)FileLibrary.FileExists;
+        foreach( KeyValuePair<string, DynValue> globalString in LuaGlobalsLibrary.luaGlobals ) {
             luaScript.Globals[globalString.Key] = globalString.Value;
         }
     }
