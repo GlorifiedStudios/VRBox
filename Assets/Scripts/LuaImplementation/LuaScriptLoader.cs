@@ -28,7 +28,10 @@ public class LuaScriptLoader : MonoBehaviour
                             niceMessage = niceMessage.Replace( @"\", "/" );
                             int modulesIndex = niceMessage.IndexOf( "modules" );
                             niceMessage = niceMessage.Substring( modulesIndex, modulesIndex );
-                            Debug.LogError( "Lua Script Errors:\n" + niceMessage );
+                            niceMessage = niceMessage + " " + ex.Message;
+                            GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole(
+                                "<color=red>" + niceMessage + "</color>"
+                            );
                         }
                     }
                 }
@@ -37,6 +40,8 @@ public class LuaScriptLoader : MonoBehaviour
     }
 
     void Start() {
+        Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
+        Script.DefaultOptions.DebugPrint = s => GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole( "<color=white>" + s + "</color>" );
         LoadAutorunFiles();
     }
 }
