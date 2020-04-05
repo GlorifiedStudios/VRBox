@@ -8,12 +8,7 @@ using MoonSharp.Interpreter.Loaders;
 public class LuaScriptLoader : MonoBehaviour
 {
     private void AssignLuaGlobals( Script luaScript ) {
-        luaScript.Globals["PushGlobal"] = (Func<string, DynValue, DynValue>)LuaGlobalsLibrary.PushGlobal;
-        luaScript.Globals["GetGlobal"] = (Func<string, DynValue>)LuaGlobalsLibrary.GetGlobal;
         luaScript.Globals["FileExists"] = (Func<string, DynValue>)FileLibrary.FileExists;
-        foreach( KeyValuePair<string, DynValue> globalString in LuaGlobalsLibrary.luaGlobals ) {
-            luaScript.Globals[globalString.Key] = globalString.Value;
-        }
     }
 
     void Start()
