@@ -11,7 +11,8 @@ public class LuaScriptLoader : MonoBehaviour
 {
     private static string[] unwriteableGlobals = new string[] {
         "PushGlobal",
-        "GetGlobal"
+        "GetGlobal",
+        "fileExists"
     };
 
     private static Dictionary<string, DynValue> luaGlobals = new Dictionary<string, DynValue>();
@@ -28,9 +29,17 @@ public class LuaScriptLoader : MonoBehaviour
         return luaGlobals[identifier];
     }
 
+    private static DynValue FileExists( string path ) {
+        bool fileExists = false;
+        if( Directory.Exists( path ) ) { fileExists = true; }
+        if( File.Exists( path ) ) { fileExists = true; }
+        return DynValue.NewBoolean( fileExists );
+    }
+
     private void AssignLuaGlobals( Script luaScript ) {
         luaScript.Globals["PushGlobal"] = (Func<string, DynValue, DynValue>)PushGlobal;
         luaScript.Globals["GetGlobal"] = (Func<string, DynValue>)GetGlobal;
+        luaScript.Globals["FileExists"] = (Func<string, DynValue>)FileExists;
         foreach( KeyValuePair<string, DynValue> globalString in luaGlobals ) {
             luaScript.Globals[globalString.Key] = globalString.Value;
         }
