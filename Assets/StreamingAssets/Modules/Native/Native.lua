@@ -1,1 +1,1 @@
-return "Hello!"
+foo = "69"
