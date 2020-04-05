@@ -28,6 +28,7 @@ public class CharacterLook : MonoBehaviour
 
     private void CameraRotation()
     {
+        if( transform.parent.GetComponent<ConsoleController>().consoleActive ) { return; }
         float mouseX = Input.GetAxis( "Mouse X" ) * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis( "Mouse Y" ) * mouseSensitivity * Time.deltaTime;
 

@@ -25,11 +25,12 @@ public class CharacterMove : MonoBehaviour
     }
 
     private void PlayerMovement() {
-        float horizInput = Input.GetAxis( "Horizontal" ) * movementSpeed;
-        float vertInput = Input.GetAxis( "Vertical" ) * movementSpeed;
+        float horizontal = Input.GetAxis( "Horizontal" ) * movementSpeed;
+        float vertical = Input.GetAxis( "Vertical" ) * movementSpeed;
+        if( GetComponent<ConsoleController>().consoleActive ) { horizontal = 0; vertical = 0; }
 
-        Vector3 forwardMovement = transform.forward * vertInput;
-        Vector3 rightMovement = transform.right * horizInput;
+        Vector3 forwardMovement = transform.forward * vertical;
+        Vector3 rightMovement = transform.right * horizontal;
 
         Vector3 speed = forwardMovement + rightMovement;
         charController.SimpleMove( speed );
