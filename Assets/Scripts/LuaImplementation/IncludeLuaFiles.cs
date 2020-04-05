@@ -14,6 +14,13 @@ public class IncludeLuaFiles : MonoBehaviour
         return value;
     }
 
+    private void AssignLuaGlobals( Script luaScript ) {
+        luaScript.Globals["PushGlobalString"] = (Func<string, string, string>)PushGlobalString;
+        foreach( KeyValuePair<string, string> globalString in luaGlobalStrings ) {
+            luaScript.Globals[globalString.Key] = globalString.Value;
+        }
+    }
+
     void Start()
     {
         string modulePath = Path.Combine( Application.streamingAssetsPath, "Modules" );
@@ -21,10 +28,7 @@ public class IncludeLuaFiles : MonoBehaviour
         foreach ( var file in allModules ){
             if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
                 Script luaScript = new Script();
-                luaScript.Globals["PushGlobalString"] = (Func<string, string, string>)PushGlobalString;
-                foreach( KeyValuePair<string, string> globalString in luaGlobalStrings ) {
-                    luaScript.Globals[globalString.Key] = globalString.Value;
-                }
+                AssignLuaGlobals( luaScript );
                 DynValue luaOutput = luaScript.DoString( File.ReadAllText( file ) );
                 Debug.Log( luaOutput );
             }
