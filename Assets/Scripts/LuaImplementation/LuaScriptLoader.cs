@@ -24,7 +24,11 @@ public class LuaScriptLoader : MonoBehaviour
                             AssignLuaGlobals( luaScript );
                             DynValue luaOutput = luaScript.DoFile( file );
                         } catch( SyntaxErrorException ex ) {
-                            Debug.LogError( "Lua Script Errors:\n" + ex.DecoratedMessage );
+                            string niceMessage = ex.DecoratedMessage;
+                            niceMessage = niceMessage.Replace( @"\", "/" );
+                            int modulesIndex = niceMessage.IndexOf( "modules" );
+                            niceMessage = niceMessage.Substring( modulesIndex, modulesIndex );
+                            Debug.LogError( "Lua Script Errors:\n" + niceMessage );
                         }
                     }
                 }
