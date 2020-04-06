@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Loaders;
@@ -26,7 +27,7 @@ public class LuaScriptLoader : MonoBehaviour
             string autorunFolder = Path.Combine( moduleFolder, "autorun" );
             if( Directory.Exists( autorunFolder ) ) {
                 foreach ( var file in Directory.GetFiles( autorunFolder, "*.*", SearchOption.AllDirectories ) ) {
-                    if( file.Substring( Mathf.Max( 0, file.Length - 4 ) ) == ".lua" ) {
+                    if( Path.GetExtension( file ) == ".lua" ) {
                         try {
                             Script luaScript = new Script();
                             ((ScriptLoaderBase)luaScript.Options.ScriptLoader).ModulePaths = ScriptLoaderBase.UnpackStringPaths( moduleFolder + "/?;" + moduleFolder + "/?.lua" );
@@ -37,7 +38,6 @@ public class LuaScriptLoader : MonoBehaviour
                             niceMessage = niceMessage.Replace( @"\", "/" );
                             int modulesIndex = niceMessage.IndexOf( "modules" );
                             niceMessage = niceMessage.Substring( modulesIndex, niceMessage.Length - modulesIndex );
-                            Debug.Log( niceMessage );
                             playerObject.GetComponent<ConsoleController>().AddLineToConsole(
                                 "<color=red>" + niceMessage + "</color>"
                             );
