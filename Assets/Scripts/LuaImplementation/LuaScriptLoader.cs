@@ -16,7 +16,7 @@ public class LuaScriptLoader : MonoBehaviour
     void Start() {
         playerObject = GameObject.FindGameObjectWithTag( "Player" );
         Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
-        Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().AddLineToConsole( "<color=white>" + s + "</color>" );
+        Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().AddLineToConsole( s );
         LoadAutorunFiles();
     }
 
