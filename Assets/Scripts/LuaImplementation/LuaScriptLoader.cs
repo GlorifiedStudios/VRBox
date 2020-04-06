@@ -32,12 +32,12 @@ public class LuaScriptLoader : MonoBehaviour
                             ((ScriptLoaderBase)luaScript.Options.ScriptLoader).ModulePaths = ScriptLoaderBase.UnpackStringPaths( moduleFolder + "/?;" + moduleFolder + "/?.lua" );
                             AssignLuaGlobals( luaScript );
                             DynValue luaOutput = luaScript.DoFile( file );
-                        } catch( SyntaxErrorException ex ) {
+                        } catch( InterpreterException ex ) {
                             string niceMessage = ex.DecoratedMessage;
                             niceMessage = niceMessage.Replace( @"\", "/" );
                             int modulesIndex = niceMessage.IndexOf( "modules" );
-                            niceMessage = niceMessage.Substring( modulesIndex, modulesIndex );
-                            niceMessage = niceMessage + " " + ex.Message;
+                            niceMessage = niceMessage.Substring( modulesIndex, niceMessage.Length - modulesIndex );
+                            Debug.Log( niceMessage );
                             playerObject.GetComponent<ConsoleController>().AddLineToConsole(
                                 "<color=red>" + niceMessage + "</color>"
                             );
