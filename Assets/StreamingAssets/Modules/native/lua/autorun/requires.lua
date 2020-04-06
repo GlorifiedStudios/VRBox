@@ -1,4 +1,4 @@
-Timer.Repeating( "TestTimer", 1, 5, function()
+Timer.Repeating( "TestTimer", 1, 0, function()
     print( "TimerTest" )
 end )
 print( File.Exists( "Bruh" ) )
