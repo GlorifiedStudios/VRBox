@@ -7,7 +7,10 @@ using MoonSharp.Interpreter.Loaders;
 public class LuaScriptLoader : MonoBehaviour
 {
     private void AssignLuaGlobals( Script luaScript ) {
-        luaScript.Globals["FileExists"] = (Func<string, DynValue>)LuaFileLibrary.FileExists;
+	    UserData.RegisterAssembly();
+        GameObject gameController = GameObject.FindGameObjectWithTag( "GameController" );
+        luaScript.Globals["File"] = new LuaFileLibrary();
+        luaScript.Globals["Timer"] = new LuaTimerLibrary();
     }
 
     private void LoadAutorunFiles() {
