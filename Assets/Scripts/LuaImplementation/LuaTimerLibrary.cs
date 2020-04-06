@@ -7,17 +7,22 @@ using MoonSharp.Interpreter;
 class LuaTimerLibrary
 {
     public void Begin( float seconds, Closure function ) {
+        if( seconds < 0 ) { return; }
         GameObject.FindGameObjectWithTag( "GameController" ).GetComponent<LuaScriptLoader>().StartCoroutine( StartEnumerator( seconds, function ) );
     }
 
     [MoonSharpHidden] Dictionary<string, int> repeatingTimers = new Dictionary<string, int>();
     public void Repeating( string identifier, float seconds, int repetitions, Closure function ) {
+        if( repetitions < 0 || seconds < 0 ) { return; }
+        if( repetitions == 0 ) { repetitions = -1; }
         repeatingTimers[identifier] = repetitions;
         GameObject.FindGameObjectWithTag( "GameController" ).GetComponent<LuaScriptLoader>().StartCoroutine( StartRepeatingEnumerator( identifier, seconds, function ) );
     }
 
     public void Remove( string identifier ) {
-        repeatingTimers.Remove( identifier );
+        if( repeatingTimers.ContainsKey( identifier ) ) {
+            repeatingTimers.Remove( identifier );
+        }
     }
 
     [MoonSharpHidden]
@@ -29,9 +34,11 @@ class LuaTimerLibrary
 
     [MoonSharpHidden]
     private IEnumerator StartRepeatingEnumerator( string identifier, float seconds, Closure function ) {
-        while( repeatingTimers.ContainsKey( identifier ) && repeatingTimers[identifier] > 0 ) {
-            repeatingTimers[identifier] = repeatingTimers[identifier] - 1;
-            if( repeatingTimers[identifier] <= 0 ) { repeatingTimers.Remove( identifier ); }
+        while( repeatingTimers.ContainsKey( identifier ) && ( repeatingTimers[identifier] == -1 || repeatingTimers[identifier] > 0 ) ) {
+            if( repeatingTimers[identifier] != -1 ) {
+                repeatingTimers[identifier] = repeatingTimers[identifier] - 1;
+                if( repeatingTimers[identifier] <= 0 ) { repeatingTimers.Remove( identifier ); }
+            }
             yield return new WaitForSeconds( seconds );
             Script luaScript = function.OwnerScript;
             luaScript.Call( function );
