@@ -8,9 +8,8 @@ public class LuaScriptLoader : MonoBehaviour
 {
     private void AssignLuaGlobals( Script luaScript ) {
 	    UserData.RegisterAssembly();
-        GameObject gameController = GameObject.FindGameObjectWithTag( "GameController" );
         luaScript.Globals["File"] = new LuaFileLibrary();
-        //luaScript.Globals["Timer"] = new LuaTimerLibrary();
+        luaScript.Globals["Timer"] = new LuaTimerLibrary();
     }
 
     private void LoadAutorunFiles() {

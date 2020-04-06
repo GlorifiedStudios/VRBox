@@ -1,4 +1,4 @@
--- Timer.Start( 5, function()
---     print( "TimerTest" )
--- end )
+Timer.Begin( 5, function()
+    print( "TimerTest" )
+end )
 print( File.Exists( "Bruh" ) )
