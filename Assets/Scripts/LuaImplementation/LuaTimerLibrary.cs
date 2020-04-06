@@ -6,17 +6,19 @@ using MoonSharp.Interpreter;
 [MoonSharpUserData]
 class LuaTimerLibrary
 {
+    private GameObject gameController = GameObject.FindGameObjectWithTag( "GameController" );
+    
     public void Begin( float seconds, Closure function ) {
         if( seconds < 0 ) { return; }
-        GameObject.FindGameObjectWithTag( "GameController" ).GetComponent<LuaScriptLoader>().StartCoroutine( StartEnumerator( seconds, function ) );
+        gameController.GetComponent<LuaScriptLoader>().StartCoroutine( StartEnumerator( seconds, function ) );
     }
 
-    [MoonSharpHidden] Dictionary<string, int> repeatingTimers = new Dictionary<string, int>();
+    [MoonSharpHidden] private Dictionary<string, int> repeatingTimers = new Dictionary<string, int>();
     public void Repeating( string identifier, float seconds, int repetitions, Closure function ) {
         if( repetitions < 0 || seconds < 0 ) { return; }
         if( repetitions == 0 ) { repetitions = -1; }
         repeatingTimers[identifier] = repetitions;
-        GameObject.FindGameObjectWithTag( "GameController" ).GetComponent<LuaScriptLoader>().StartCoroutine( StartRepeatingEnumerator( identifier, seconds, function ) );
+        gameController.GetComponent<LuaScriptLoader>().StartCoroutine( StartRepeatingEnumerator( identifier, seconds, function ) );
     }
 
     public void Remove( string identifier ) {

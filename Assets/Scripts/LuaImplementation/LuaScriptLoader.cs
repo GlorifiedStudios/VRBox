@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Loaders;
@@ -10,6 +9,14 @@ public class LuaScriptLoader : MonoBehaviour
 	    UserData.RegisterAssembly();
         luaScript.Globals["File"] = new LuaFileLibrary();
         luaScript.Globals["Timer"] = new LuaTimerLibrary();
+    }
+
+    private GameObject playerObject;
+    void Start() {
+        playerObject = GameObject.FindGameObjectWithTag( "Player" );
+        Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
+        Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().AddLineToConsole( "<color=white>" + s + "</color>" );
+        LoadAutorunFiles();
     }
 
     private void LoadAutorunFiles() {
@@ -31,7 +38,7 @@ public class LuaScriptLoader : MonoBehaviour
                             int modulesIndex = niceMessage.IndexOf( "modules" );
                             niceMessage = niceMessage.Substring( modulesIndex, modulesIndex );
                             niceMessage = niceMessage + " " + ex.Message;
-                            GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole(
+                            playerObject.GetComponent<ConsoleController>().AddLineToConsole(
                                 "<color=red>" + niceMessage + "</color>"
                             );
                         }
@@ -39,11 +46,5 @@ public class LuaScriptLoader : MonoBehaviour
                 }
             }
         }
-    }
-
-    void Start() {
-        Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
-        Script.DefaultOptions.DebugPrint = s => GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole( "<color=white>" + s + "</color>" );
-        LoadAutorunFiles();
     }
 }
