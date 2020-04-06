@@ -30,8 +30,12 @@ class LuaTimerLibrary
     [MoonSharpHidden]
     private IEnumerator StartEnumerator( float seconds, Closure function ) {
         yield return new WaitForSeconds( seconds );
-        Script luaScript = function.OwnerScript;
-        luaScript.Call( function );
+        try {
+            Script luaScript = function.OwnerScript;
+            luaScript.Call( function );
+        } catch( InterpreterException ex ) {
+            gameController.GetComponent<LuaScriptLoader>().ThrowExceptionToConsole( ex );
+        }
     }
 
     [MoonSharpHidden]
@@ -42,8 +46,12 @@ class LuaTimerLibrary
                 if( repeatingTimers[identifier] <= 0 ) { repeatingTimers.Remove( identifier ); }
             }
             yield return new WaitForSeconds( seconds );
-            Script luaScript = function.OwnerScript;
-            luaScript.Call( function );
+            try {
+                Script luaScript = function.OwnerScript;
+                luaScript.Call( function );
+            } catch( InterpreterException ex ) {
+                gameController.GetComponent<LuaScriptLoader>().ThrowExceptionToConsole( ex );
+            }
         }
     }
 }

@@ -13,11 +13,21 @@ public class LuaScriptLoader : MonoBehaviour
     }
 
     private GameObject playerObject;
-    void Start() {
+    private void Start() {
         playerObject = GameObject.FindGameObjectWithTag( "Player" );
         Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
         Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().AddLineToConsole( s );
         LoadAutorunFiles();
+    }
+
+    public void ThrowExceptionToConsole( InterpreterException ex ) {
+        string niceMessage = ex.DecoratedMessage;
+        niceMessage = niceMessage.Replace( @"\", "/" );
+        int modulesIndex = niceMessage.IndexOf( "modules" );
+        niceMessage = niceMessage.Substring( modulesIndex, niceMessage.Length - modulesIndex );
+        playerObject.GetComponent<ConsoleController>().AddLineToConsole(
+            "<color=red>" + niceMessage + "</color>"
+        );
     }
 
     private void LoadAutorunFiles() {
@@ -34,13 +44,7 @@ public class LuaScriptLoader : MonoBehaviour
                             AssignLuaGlobals( luaScript );
                             DynValue luaOutput = luaScript.DoFile( file );
                         } catch( InterpreterException ex ) {
-                            string niceMessage = ex.DecoratedMessage;
-                            niceMessage = niceMessage.Replace( @"\", "/" );
-                            int modulesIndex = niceMessage.IndexOf( "modules" );
-                            niceMessage = niceMessage.Substring( modulesIndex, niceMessage.Length - modulesIndex );
-                            playerObject.GetComponent<ConsoleController>().AddLineToConsole(
-                                "<color=red>" + niceMessage + "</color>"
-                            );
+                            ThrowExceptionToConsole( ex );
                         }
                     }
                 }
