@@ -3409,6 +3409,11 @@ PrefabInstance:
       propertyPath: inputField
       value: 
       objectReference: {fileID: 752256269}
+    - target: {fileID: 5971796318843202185, guid: 05980fcfb7266524cb940f5a8347315a,
+        type: 3}
+      propertyPath: consoleInput
+      value: 
+      objectReference: {fileID: 15575016}
     - target: {fileID: 5971796318843202186, guid: 05980fcfb7266524cb940f5a8347315a,
         type: 3}
       propertyPath: m_LocalPosition.x
