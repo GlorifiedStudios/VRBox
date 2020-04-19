@@ -18,7 +18,7 @@ public class ClientManager : MonoBehaviour
 
     private void Awake()
     {
-        if( ipInput.text != null ) { ip = ipInput.text; }
+        //if( ipInput.text != null ) { ip = ipInput.text; }
 
         if( instance == null ) {
             instance = this;
@@ -57,9 +57,9 @@ public class ClientManager : MonoBehaviour
             socket.BeginConnect( instance.ip, instance.port, ConnectCallback, socket );
         }
 
-        private void ConnectCallback(IAsyncResult _result)
+        private void ConnectCallback( IAsyncResult _result )
         {
-            socket.EndConnect(_result);
+            socket.EndConnect( _result );
 
             if (!socket.Connected)
             {
@@ -88,7 +88,7 @@ public class ClientManager : MonoBehaviour
             }
             catch
             {
-                
+
             }
         }
     }
