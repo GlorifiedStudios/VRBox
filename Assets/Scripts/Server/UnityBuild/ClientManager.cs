@@ -18,8 +18,6 @@ public class ClientManager : MonoBehaviour
 
     private void Awake()
     {
-        //if( ipInput.text != null ) { ip = ipInput.text; }
-
         if( instance == null ) {
             instance = this;
         } else if (instance != this) {
@@ -30,6 +28,7 @@ public class ClientManager : MonoBehaviour
 
     private void Start()
     {
+        if( ipInput.text != null && ipInput.text != "" ) { ip = ipInput.text; }
         tcp = new TCP();
     }
 
