@@ -6,3 +6,5 @@ A few more markdown files will be coming soon documenting how to make use of the
 Further documentation at https://vrbox.dev/
 
 Follow development @ https://discord.gg/glorifiedstudios
+
+Lua code located at Assets/StreamingAssets/Modules
