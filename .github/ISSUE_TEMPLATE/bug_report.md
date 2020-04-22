@@ -2,7 +2,7 @@
 name: Bug Report
 about: Create an issue to report a bug.
 title: ''
-labels: ''
+labels: bug
 assignees: ''
 
 ---
