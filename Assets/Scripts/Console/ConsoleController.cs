@@ -9,17 +9,21 @@ public class ConsoleController : MonoBehaviour
     public TMP_InputField consoleInput;
     private string consoleText = "";
 
-    public void AddLineToConsole(string newText, string colorName) {
+    public void AddLineToConsole( string newText ) {
         if( inputField == null ) { return; }
-        consoleText = "<color=" + colorName + ">" + consoleText + newText + "</color>\n";
+        consoleText = consoleText + newText + "\n";
         inputField.text = consoleText;
     }
 
+    public void ThrowError( string errorText ) { AddLineToConsole( "<color=red>" + errorText + "</color>" ); }
+    public void ThrowWarning( string warningText ) { AddLineToConsole( "<color=orange>" + warningText + "</color>" ); }
+    public void PrintToConsole( string printText ) { AddLineToConsole( "<color=white>" + printText + "</color>" ); }
+
     void OnGUI()
     {
-        if (consoleInput.isFocused && consoleInput.text != "" && Input.GetKey(KeyCode.Return))
+        if( consoleInput.isFocused && consoleInput.text != "" && Input.GetKey( KeyCode.Return ) )
         {
-            AddLineToConsole(consoleInput.text, "white");
+            PrintToConsole( consoleInput.text );
             consoleInput.text = "";
         }
     }

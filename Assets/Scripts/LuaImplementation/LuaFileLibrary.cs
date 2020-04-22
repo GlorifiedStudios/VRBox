@@ -9,9 +9,8 @@ class LuaFileLibrary
     private bool ValidPath( string path ) {
         string dataPath = Path.Combine( Application.streamingAssetsPath, "data" );
         if( path.Length < dataPath.Length || path.Substring( 0, dataPath.Length ) != dataPath ) {
-            GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().AddLineToConsole(
-                "File library path called out of data folder, cancelling.",
-                "orange"
+            GameObject.FindGameObjectWithTag( "Player" ).GetComponent<ConsoleController>().ThrowWarning(
+                "File library path called out of data folder, cancelling."
             );
             return false;
         } else { return true; }
