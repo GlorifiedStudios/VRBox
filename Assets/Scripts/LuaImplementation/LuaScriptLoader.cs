@@ -16,7 +16,7 @@ public class LuaScriptLoader : MonoBehaviour
     private void Start() {
         playerObject = GameObject.FindGameObjectWithTag( "Player" );
         Script.DefaultOptions.ScriptLoader = new FileSystemScriptLoader();
-        Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().AddLineToConsole(s, "white");
+        Script.DefaultOptions.DebugPrint = s => playerObject.GetComponent<ConsoleController>().PrintToConsole( s );
         LoadAutorunFiles();
     }
 
@@ -25,10 +25,7 @@ public class LuaScriptLoader : MonoBehaviour
         niceMessage = niceMessage.Replace( @"\", "/" );
         int modulesIndex = niceMessage.IndexOf( "modules" );
         niceMessage = niceMessage.Substring( modulesIndex, niceMessage.Length - modulesIndex );
-        playerObject.GetComponent<ConsoleController>().AddLineToConsole(
-            niceMessage,
-            "red"
-        );
+        playerObject.GetComponent<ConsoleController>().ThrowError( niceMessage );
     }
 
     private void LoadAutorunFiles() {
