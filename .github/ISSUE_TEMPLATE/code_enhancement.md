@@ -2,7 +2,7 @@
 name: Code Enhancement
 about: Create an issue to suggest an enhancement of the code.
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---

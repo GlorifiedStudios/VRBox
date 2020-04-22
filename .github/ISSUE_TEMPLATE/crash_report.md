@@ -2,7 +2,7 @@
 name: Crash Report
 about: Create an issue to report a crash.
 title: ''
-labels: ''
+labels: crash
 assignees: ''
 
 ---

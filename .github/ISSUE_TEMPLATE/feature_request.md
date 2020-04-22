@@ -2,7 +2,7 @@
 name: Feature Request
 about: Create an issue to request a new feature.
 title: ''
-labels: ''
+labels: feature request
 assignees: ''
 
 ---
