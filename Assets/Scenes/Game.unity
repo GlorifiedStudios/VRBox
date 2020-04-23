@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98921fc21077b0d43bab6915b5fa4bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  consoleGameObject: {fileID: 752256267}
+  consoleTextSerialized: {fileID: 752256269}
   consoleInput: {fileID: 15575016}
 --- !u!1 &386429069
 GameObject:
