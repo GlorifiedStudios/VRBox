@@ -13,16 +13,18 @@ public class CharacterLook : MonoBehaviour
     private void Awake()
     {
         xAxisClamp = 0.0f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; // to-do: make a less confusing cursor handler, because it's being called from this script and ConsoleController
     }
 
     private void Update()
     {
+        if( ConsoleController.consoleActive ) { return; }
         CameraRotation();
     }
 
     private void CameraRotation()
     {
-        if( transform.parent.GetComponent<ConsoleController>().consoleActive ) { return; }
         float mouseX = Input.GetAxis( "Mouse X" ) * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis( "Mouse Y" ) * mouseSensitivity * Time.deltaTime;
 

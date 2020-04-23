@@ -19,7 +19,7 @@ public class HeadBob : MonoBehaviour
         float waveslice = 0.0f;
         float horizontal = Input.GetAxis( "Horizontal" );
         float vertical = Input.GetAxis( "Vertical" );
-        if( transform.parent.GetComponent<ConsoleController>().consoleActive ) { horizontal = 0; vertical = 0; }
+        if( ConsoleController.consoleActive ) { horizontal = 0; vertical = 0; }
 
         Vector3 cSharpConversion = transform.localPosition;
 

@@ -4,20 +4,27 @@ using TMPro;
 
 public class ConsoleController : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField inputField = null;
-    [ReadOnly] public bool consoleActive;
-    public TMP_InputField consoleInput;
-    private string consoleText = "";
+    public static bool consoleActive;
+    private static string consoleText = "";
+    private static TMP_InputField consoleTextInputField = null;
 
-    public void AddLineToConsole( string newText ) {
-        if( inputField == null ) { return; }
+    [SerializeField] private GameObject consoleGameObject = null;
+    [SerializeField] private TMP_InputField consoleInput = null;
+
+    public static void AddLineToConsole( string newText ) {
+        if( consoleTextInputField == null ) { return; }
         consoleText = consoleText + newText + "\n";
-        inputField.text = consoleText;
+        consoleTextInputField.text = consoleText;
     }
 
-    public void ThrowError( string errorText ) { AddLineToConsole( "<color=red>" + errorText + "</color>" ); }
-    public void ThrowWarning( string warningText ) { AddLineToConsole( "<color=orange>" + warningText + "</color>" ); }
-    public void PrintToConsole( string printText ) { AddLineToConsole( "<color=white>" + printText + "</color>" ); }
+    public static void ThrowError( string errorText ) { AddLineToConsole( "<color=red>" + errorText + "</color>" ); }
+    public static void ThrowWarning( string warningText ) { AddLineToConsole( "<color=orange>" + warningText + "</color>" ); }
+    public static void PrintToConsole( string printText ) { AddLineToConsole( "<color=white>" + printText + "</color>" ); }
+
+    void Awake() {
+        consoleActive = consoleGameObject.activeSelf;
+        consoleTextInputField = consoleGameObject.GetComponent<TMP_InputField>();
+    }
 
     void OnGUI()
     {
@@ -28,11 +35,9 @@ public class ConsoleController : MonoBehaviour
         }
     }
 
-    void Update() {
-        consoleActive = inputField.gameObject.activeSelf;
-        if( Input.GetButtonDown( "OpenConsole" ) ) {
-            inputField.gameObject.SetActive( !consoleActive );
-        }
+    void ToggleConsole() {
+        consoleGameObject.SetActive( !consoleActive );
+        consoleActive = consoleGameObject.activeSelf;
 
         if( consoleActive ) {
             Cursor.lockState = CursorLockMode.None;
@@ -40,6 +45,12 @@ public class ConsoleController : MonoBehaviour
         } else {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+    }
+
+    void Update() {
+        if( Input.GetButtonDown( "OpenConsole" ) ) {
+            ToggleConsole();
         }
     }
 }
