@@ -5,14 +5,11 @@ using TMPro;
 public class ConsoleController : MonoBehaviour
 {
     public static bool consoleActive;
-
     private static string consoleText = "";
     private static TMP_InputField consoleTextInputField = null;
 
-    [SerializeField] private TMP_InputField consoleTextSerialized = null;
+    [SerializeField] private GameObject consoleGameObject = null;
     [SerializeField] private TMP_InputField consoleInput = null;
-
-    private GameObject consoleGameObject = null;
 
     public static void AddLineToConsole( string newText ) {
         if( consoleTextInputField == null ) { return; }
@@ -25,9 +22,8 @@ public class ConsoleController : MonoBehaviour
     public static void PrintToConsole( string printText ) { AddLineToConsole( "<color=white>" + printText + "</color>" ); }
 
     void Awake() {
-        consoleTextInputField = consoleTextSerialized;
-        consoleGameObject = consoleTextSerialized.gameObject;
         consoleActive = consoleGameObject.activeSelf;
+        consoleTextInputField = consoleGameObject.GetComponent<TMP_InputField>();
     }
 
     void OnGUI()
